@@ -1,11 +1,11 @@
-package com.addressbookapp.service;
+package com.AddressBookApp;
 
 import com.AddressBookApp.model.Contact;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressBook {
+public class AddressBookMain {
 
     private List<Contact> contacts = new ArrayList<>();
 
