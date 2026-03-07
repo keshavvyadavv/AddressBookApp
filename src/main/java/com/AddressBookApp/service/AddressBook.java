@@ -21,4 +21,16 @@ public class AddressBook {
             c.display();
         }
     }
+
+    public boolean editContact(String firstName, String lastName, Contact updatedContact) {
+        for (int i = 0; i < contacts.size(); i++) {
+            Contact c = contacts.get(i);
+            if (c.getFirstName().equalsIgnoreCase(firstName)
+                    && c.getLastName().equalsIgnoreCase(lastName)) {
+                contacts.set(i, updatedContact);
+                return true;
+            }
+        }
+        return false;
+    }
 }
