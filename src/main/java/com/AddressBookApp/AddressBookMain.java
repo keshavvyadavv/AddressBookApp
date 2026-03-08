@@ -64,6 +64,7 @@ public class AddressBookMain {
                         System.out.println("7. View Persons by State");
                         System.out.println("8. Count Contacts by City");
                         System.out.println("9. Count Contacts by State");
+                        System.out.println("10. Sort Contacts by Name");
 
                         int op = sc.nextInt();
                         sc.nextLine();
@@ -159,6 +160,14 @@ public class AddressBookMain {
 
                                 stateCount.forEach((stateKey, count) ->
                                         System.out.println(stateKey + " : " + count));
+
+                                break;
+
+                            case 10:
+
+                                List<Contact> sortedContacts = currentBook.sortByName();
+
+                                sortedContacts.forEach(System.out::println);
 
                                 break;
 
