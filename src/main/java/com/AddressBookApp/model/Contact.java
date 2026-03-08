@@ -17,7 +17,7 @@ public class Contact {
         this.city = city;
         this.state = state;
     }
-    // Getters and setters
+
     public String getName() { return name; }
     public String getPhone() { return phone; }
     public String getEmail() { return email; }
@@ -36,7 +36,6 @@ public class Contact {
                 ", City: " + city + ", State: " + state;
     }
 
-    // Equals & hashCode for duplicate check by name
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
