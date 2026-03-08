@@ -109,4 +109,12 @@ public class AddressBook {
                 .collect(Collectors.groupingBy(Contact::getState, Collectors.counting()));
 
     }
+
+    public List<Contact> sortByName() {
+
+        return contacts.stream()
+                .sorted((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()))
+                .collect(Collectors.toList());
+
+    }
 }
