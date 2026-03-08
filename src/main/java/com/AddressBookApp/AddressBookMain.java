@@ -150,6 +150,17 @@ public class AddressBookMain {
                                 Contact updatedContact = new Contact(newName, newPhone, newEmail, newCity, newState);
                                 currentBook.updateContactInDB(oldName, updatedContact);
                                 break;
+
+                            case 18:
+                                System.out.println("Enter Start Date (yyyy-mm-dd):");
+                                String start = sc.next();
+                                System.out.println("Enter End Date (yyyy-mm-dd):");
+                                String end = sc.next();
+
+                                List<Contact> contactsInPeriod = currentBook.getContactsByPeriod(Date.valueOf(start), Date.valueOf(end));
+                                if(contactsInPeriod.isEmpty()) System.out.println("No contacts found in this period.");
+                                else contactsInPeriod.forEach(System.out::println);
+                                break;
                         }
                         if(op == 5) break;
                     }

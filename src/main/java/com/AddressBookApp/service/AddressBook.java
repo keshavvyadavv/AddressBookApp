@@ -1,6 +1,7 @@
 package com.AddressBookApp.service;
 
 import com.AddressBookApp.model.Contact;
+import com.AddressBookApp.util.DBConnection;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.opencsv.CSVReader;
@@ -14,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 public class AddressBook {
@@ -244,5 +246,27 @@ public class AddressBook {
             System.out.println("Error updating contact in DB: " + e.getMessage());
             return false;
         }
+    }
+    public List<Contact> getContactsByPeriod(Date start, Date end) {
+        List<Contact> result = new ArrayList<>();
+        try (Connection conn = DBConnection.getConnection()) {
+            String query = "SELECT name, phone, email, city, state FROM contacts WHERE date_added BETWEEN ? AND ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setDate(1, (java.sql.Date) start);
+            stmt.setDate(2, (java.sql.Date) end);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                result.add(new Contact(
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("city"),
+                        rs.getString("state")
+                ));
+            }
+        } catch(SQLException e) {
+            System.out.println("Error retrieving contacts by period: " + e.getMessage());
+        }
+        return result;
     }
 }
