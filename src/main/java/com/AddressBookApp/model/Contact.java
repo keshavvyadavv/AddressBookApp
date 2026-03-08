@@ -37,15 +37,15 @@ public class Contact {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(name.toLowerCase());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if(this == o) return true;
         if(!(o instanceof Contact)) return false;
         Contact c = (Contact) o;
         return this.name.equalsIgnoreCase(c.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name.toLowerCase());
     }
 }

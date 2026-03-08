@@ -6,10 +6,12 @@ import com.google.gson.GsonBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
+import java.sql.*;
 
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -206,6 +208,41 @@ public class AddressBook {
             System.out.println("Contact saved to DB successfully!");
         } catch (SQLException e) {
             System.out.println("Error saving contact to DB: " + e.getMessage());
+        }
+    }
+
+
+    public boolean updateContactInDB(String name, Contact updatedContact) {
+        try (Connection conn = com.AddressBookApp.util.DBConnection.getConnection()) {
+            String query = "UPDATE contacts SET name=?, phone=?, email=?, city=?, state=? WHERE name=?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            stmt.setString(1, updatedContact.getName());
+            stmt.setString(2, updatedContact.getPhone());
+            stmt.setString(3, updatedContact.getEmail());
+            stmt.setString(4, updatedContact.getCity());
+            stmt.setString(5, updatedContact.getState());
+            stmt.setString(6, name);
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Contact updated in DB successfully!");
+
+                // Sync memory
+                for (int i = 0; i < contacts.size(); i++) {
+                    if (contacts.get(i).getName().equalsIgnoreCase(name)) {
+                        contacts.set(i, updatedContact);
+                        break;
+                    }
+                }
+                return true;
+            } else {
+                System.out.println("Contact not found in DB!");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating contact in DB: " + e.getMessage());
+            return false;
         }
     }
 }

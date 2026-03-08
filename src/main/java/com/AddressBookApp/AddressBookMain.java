@@ -58,6 +58,7 @@ public class AddressBookMain {
                         System.out.println("14. Read Contacts from JSON");
                         System.out.println("15. Load Contacts from Database");
                         System.out.println("16. Save Contact to Database");
+                        System.out.println("17. Update Contact in DB and Memory");
 
                         int op = sc.nextInt(); sc.nextLine();
 
@@ -135,6 +136,19 @@ public class AddressBookMain {
                                 System.out.println("Enter State:"); String dbState = sc.next();
                                 Contact dbContact = new Contact(dbName, dbPhone, dbEmail, dbCity, dbState);
                                 currentBook.saveContactToDB(dbContact);
+                                break;
+
+                            case 17:
+                                System.out.println("Enter Name of Contact to Update:");
+                                String oldName = sc.next();
+                                System.out.println("Enter New Name:"); String newName = sc.next();
+                                System.out.println("Enter New Phone:"); String newPhone = sc.next();
+                                System.out.println("Enter New Email:"); String newEmail = sc.next();
+                                System.out.println("Enter New City:"); String newCity = sc.next();
+                                System.out.println("Enter New State:"); String newState = sc.next();
+
+                                Contact updatedContact = new Contact(newName, newPhone, newEmail, newCity, newState);
+                                currentBook.updateContactInDB(oldName, updatedContact);
                                 break;
                         }
                         if(op == 5) break;
