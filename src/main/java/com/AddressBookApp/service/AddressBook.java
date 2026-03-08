@@ -8,6 +8,9 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -165,6 +168,44 @@ public class AddressBook {
             System.out.println("Contacts loaded from JSON successfully!");
         } catch (IOException e) {
             System.out.println("Error reading JSON: " + e.getMessage());
+        }
+    }
+
+    public void loadContactsFromDB() {
+        try (Connection conn = com.AddressBookApp.util.DBConnection.getConnection()) {
+            String query = "SELECT name, phone, email, city, state FROM contacts";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            contacts.clear(); // clear existing contacts
+            while (rs.next()) {
+                Contact c = new Contact(
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("city"),
+                        rs.getString("state")
+                );
+                contacts.add(c);
+            }
+            System.out.println("Contacts loaded from DB successfully!");
+        } catch (SQLException e) {
+            System.out.println("Error loading contacts from DB: " + e.getMessage());
+        }
+    }
+    public void saveContactToDB(Contact c) {
+        try (Connection conn = com.AddressBookApp.util.DBConnection.getConnection()) {
+            String query = "INSERT INTO contacts (name, phone, email, city, state) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, c.getName());
+            stmt.setString(2, c.getPhone());
+            stmt.setString(3, c.getEmail());
+            stmt.setString(4, c.getCity());
+            stmt.setString(5, c.getState());
+            stmt.executeUpdate();
+            System.out.println("Contact saved to DB successfully!");
+        } catch (SQLException e) {
+            System.out.println("Error saving contact to DB: " + e.getMessage());
         }
     }
 }

@@ -56,6 +56,8 @@ public class AddressBookMain {
                         System.out.println("12. Read Contacts from File");
                         System.out.println("13. Write Contacts to JSON");
                         System.out.println("14. Read Contacts from JSON");
+                        System.out.println("15. Load Contacts from Database");
+                        System.out.println("16. Save Contact to Database");
 
                         int op = sc.nextInt(); sc.nextLine();
 
@@ -121,6 +123,18 @@ public class AddressBookMain {
                                 System.out.println("Enter JSON filename to load:");
                                 String loadJson = sc.next();
                                 currentBook.readContactsFromJSON(loadJson);
+                                break;
+                            case 15:
+                                currentBook.loadContactsFromDB();
+                                break;
+                            case 16:
+                                System.out.println("Enter Name:"); String dbName = sc.next();
+                                System.out.println("Enter Phone:"); String dbPhone = sc.next();
+                                System.out.println("Enter Email:"); String dbEmail = sc.next();
+                                System.out.println("Enter City:"); String dbCity = sc.next();
+                                System.out.println("Enter State:"); String dbState = sc.next();
+                                Contact dbContact = new Contact(dbName, dbPhone, dbEmail, dbCity, dbState);
+                                currentBook.saveContactToDB(dbContact);
                                 break;
                         }
                         if(op == 5) break;
