@@ -62,6 +62,8 @@ public class AddressBookMain {
                         System.out.println("5. Back to Main Menu");
                         System.out.println("6. View Persons by City");
                         System.out.println("7. View Persons by State");
+                        System.out.println("8. Count Contacts by City");
+                        System.out.println("9. Count Contacts by State");
 
                         int op = sc.nextInt();
                         sc.nextLine();
@@ -139,6 +141,24 @@ public class AddressBookMain {
                                     System.out.println("\nState: " + stateKey);
                                     persons.forEach(System.out::println);
                                 });
+
+                                break;
+
+                            case 8:
+
+                                Map<String, Long> cityCount = currentBook.countByCity();
+
+                                cityCount.forEach((cityKey, count) ->
+                                        System.out.println(cityKey + " : " + count));
+
+                                break;
+
+                            case 9:
+
+                                Map<String, Long> stateCount = currentBook.countByState();
+
+                                stateCount.forEach((stateKey, count) ->
+                                        System.out.println(stateKey + " : " + count));
 
                                 break;
 
