@@ -100,12 +100,15 @@ public class AddressBookMain {
                                 List<Contact> sortedContacts = currentBook.sortByName();
                                 sortedContacts.forEach(System.out::println); break;
                             case 11:
-                                System.out.println("Enter filename to save:"); String saveFile = sc.next();
-                                currentBook.writeContactsToFile(saveFile); break;
+                                System.out.println("Enter CSV filename to save:");
+                                String saveFile = sc.next();
+                                currentBook.writeContactsToCSV(saveFile);
+                                break;
                             case 12:
-                                System.out.println("Enter filename to load:"); String loadFile = sc.next();
-                                currentBook.readContactsFromFile(loadFile); break;
-                            default: System.out.println("Invalid Option");
+                                System.out.println("Enter CSV filename to load:");
+                                String loadFile = sc.next();
+                                currentBook.readContactsFromCSV(loadFile);
+                                break;
                         }
                         if(op == 5) break;
                     }

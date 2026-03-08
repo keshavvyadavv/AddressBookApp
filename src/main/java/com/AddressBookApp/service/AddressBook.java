@@ -1,6 +1,9 @@
 package com.AddressBookApp.service;
 
 import com.AddressBookApp.model.Contact;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.*;
 import java.util.*;
@@ -107,6 +110,36 @@ public class AddressBook {
             System.out.println("Contacts loaded from file.");
         } catch(IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+
+    public void readContactsFromCSV(String fileName) {
+        try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
+            String[] nextLine;
+            reader.readNext(); // skip header
+            while ((nextLine = reader.readNext()) != null) {
+                if(nextLine.length < 5) continue;
+                Contact contact = new Contact(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4]);
+                contacts.add(contact);
+            }
+            System.out.println("Contacts loaded from CSV successfully!");
+        } catch (IOException | CsvValidationException e) {
+            System.out.println("Error reading CSV: " + e.getMessage());
+        }
+    }
+    public void writeContactsToCSV(String fileName) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter(fileName))) {
+            // Header
+            String[] header = {"Name", "Phone", "Email", "City", "State"};
+            writer.writeNext(header);
+
+            for (Contact c : contacts) {
+                String[] data = {c.getName(), c.getPhone(), c.getEmail(), c.getCity(), c.getState()};
+                writer.writeNext(data);
+            }
+            System.out.println("Contacts saved to CSV successfully!");
+        } catch (IOException e) {
+            System.out.println("Error writing CSV: " + e.getMessage());
         }
     }
 }
