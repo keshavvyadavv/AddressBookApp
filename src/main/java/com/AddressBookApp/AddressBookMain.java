@@ -62,6 +62,8 @@ public class AddressBookMain {
                         System.out.println("18. Update Contact in Date");
                         System.out.println("19. Count Contacts in DB by City or State");
                         System.out.println("20. Add Contact to DB with Transaction");
+                        System.out.println("21. Add Multiple Contacts to DB using Threads");
+
                         int op = sc.nextInt(); sc.nextLine();
 
                         switch(op) {
@@ -182,6 +184,24 @@ public class AddressBookMain {
                                 System.out.println("Enter City:"); String cty = sc.next();
                                 System.out.println("Enter State:"); String st = sc.next();
                                 currentBook.addContactToDBWithTransaction(new Contact(n,p,e,cty,st));
+                                break;
+
+                            case 21:
+                                System.out.println("How many contacts to add?");
+                                int nn = sc.nextInt();
+                                sc.nextLine();
+                                List<Contact> contactsToAdd = new ArrayList<>();
+
+                                for (int i = 0; i < nn; i++) {
+                                    System.out.println("Enter Name:"); String namee = sc.next();
+                                    System.out.println("Enter Phone:"); String phonee = sc.next();
+                                    System.out.println("Enter Email:"); String emaill = sc.next();
+                                    System.out.println("Enter City:"); String cityy = sc.next();
+                                    System.out.println("Enter State:"); String statee = sc.next();
+                                    contactsToAdd.add(new Contact(namee, phonee, emaill, cityy, statee));
+                                }
+
+                                currentBook.addMultipleContactsToDB(contactsToAdd);
                                 break;
                         }
                         if(op == 5) break;

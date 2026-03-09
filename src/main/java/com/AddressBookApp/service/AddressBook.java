@@ -362,4 +362,48 @@ public class AddressBook {
         return count;
     }
 
+    public void addMultipleContactsToDB(List<Contact> contactList) {
+        List<Thread> threads = new ArrayList<>();
+
+        for (Contact c : contactList) {
+            Thread t = new Thread(() -> {
+                try (Connection conn = DBConnection.getConnection()) {
+                    conn.setAutoCommit(false);
+
+                    String query1 = "INSERT INTO contacts (name, phone, email, city, state, date_added) VALUES (?, ?, ?, ?, ?, CURDATE())";
+                    PreparedStatement stmt1 = conn.prepareStatement(query1);
+                    stmt1.setString(1, c.getName());
+                    stmt1.setString(2, c.getPhone());
+                    stmt1.setString(3, c.getEmail());
+                    stmt1.setString(4, c.getCity());
+                    stmt1.setString(5, c.getState());
+                    stmt1.executeUpdate();
+
+                    String query2 = "INSERT INTO contact_history (contact_name, action, action_date) VALUES (?, ?, CURDATE())";
+                    PreparedStatement stmt2 = conn.prepareStatement(query2);
+                    stmt2.setString(1, c.getName());
+                    stmt2.setString(2, "Added");
+                    stmt2.executeUpdate();
+
+                    conn.commit();
+                    synchronized (contacts) { contacts.add(c); }
+                    System.out.println(Thread.currentThread().getName() + " added: " + c.getName());
+
+                } catch (SQLException e) {
+                    System.out.println("Transaction failed for " + c.getName() + ", rolling back...");
+                    e.printStackTrace();
+                }
+            });
+
+            threads.add(t);
+            t.start();
+        }
+
+        for (Thread t : threads) {
+            try { t.join(); } catch (InterruptedException e) { e.printStackTrace(); }
+        }
+
+        System.out.println("All contacts processed.");
+    }
+
 }
