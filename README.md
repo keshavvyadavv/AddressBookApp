@@ -128,3 +128,15 @@ Ability to **sort contacts alphabetically by name**.
 - Sorted contacts based on **person name**.
 
 This helps users **view contacts in an organized alphabetical order**.
+
+---
+
+## UC-11: Sort Contacts by City, State or Zip
+
+Ability to **sort contacts by city, state, or zip**.
+
+**Implementation:**
+- Used **Java Comparator with Collections.sort()**.
+- Sorted contacts based on **city, state, or zip fields**.
+
+This helps organize contacts **based on location details**.
