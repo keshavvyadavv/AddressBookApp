@@ -300,4 +300,38 @@ public class AddressBook {
         return stateCount;
     }
 
+    public boolean addContactToDBWithTransaction(Contact c) {
+        try (Connection conn = DBConnection.getConnection()) {
+            conn.setAutoCommit(false);
+
+            String query1 = "INSERT INTO contacts (name, phone, email, city, state, date_added) VALUES (?, ?, ?, ?, ?, CURDATE())";
+            PreparedStatement stmt1 = conn.prepareStatement(query1);
+            stmt1.setString(1, c.getName());
+            stmt1.setString(2, c.getPhone());
+            stmt1.setString(3, c.getEmail());
+            stmt1.setString(4, c.getCity());
+            stmt1.setString(5, c.getState());
+            stmt1.executeUpdate();
+
+            String query2 = "INSERT INTO contact_history (contact_name, action, action_date) VALUES (?, ?, CURDATE())";
+            PreparedStatement stmt2 = conn.prepareStatement(query2);
+            stmt2.setString(1, c.getName());
+            stmt2.setString(2, "Added");
+            stmt2.executeUpdate();
+
+            conn.commit();
+            contacts.add(c);
+            System.out.println("Contact added successfully with transaction!");
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                System.out.println("Transaction failed, rolling back...");
+                DBConnection.getConnection().rollback();
+            } catch (SQLException ex) { ex.printStackTrace(); }
+            return false;
+        }
+    }
+
 }

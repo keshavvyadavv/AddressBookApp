@@ -61,6 +61,7 @@ public class AddressBookMain {
                         System.out.println("17. Update Contact in DB and Memory");
                         System.out.println("18. Update Contact in Date");
                         System.out.println("19. Count Contacts in DB by City or State");
+                        System.out.println("20. Add Contact to DB with Transaction");
                         int op = sc.nextInt(); sc.nextLine();
 
                         switch(op) {
@@ -172,6 +173,15 @@ public class AddressBookMain {
                                     Map<String, Long> stateCounts = currentBook.countContactsByStateDB();
                                     stateCounts.forEach((k,v) -> System.out.println(k + " : " + v));
                                 } else System.out.println("Invalid option");
+                                break;
+
+                            case 20:
+                                System.out.println("Enter Name:"); String n = sc.next();
+                                System.out.println("Enter Phone:"); String p = sc.next();
+                                System.out.println("Enter Email:"); String e = sc.next();
+                                System.out.println("Enter City:"); String cty = sc.next();
+                                System.out.println("Enter State:"); String st = sc.next();
+                                currentBook.addContactToDBWithTransaction(new Contact(n,p,e,cty,st));
                                 break;
                         }
                         if(op == 5) break;
