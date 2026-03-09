@@ -188,3 +188,15 @@ Ability to **store and retrieve contacts using JSON format**.
 - Implemented **read and write operations** using a JSON library.
 
 This allows structured **data storage and easy data exchange**.
+
+---
+
+## UC-16: Connect Address Book to Database
+
+Ability to **connect the Address Book Application with a database**.
+
+**Implementation:**
+- Used **JDBC for database connectivity**.
+- Retrieved contact data from the **Address Book Database**.
+
+This enables **database-based storage and management of contacts**.
