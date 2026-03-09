@@ -269,4 +269,35 @@ public class AddressBook {
         }
         return result;
     }
+
+    public Map<String, Long> countContactsByCityDB() {
+        Map<String, Long> cityCount = new HashMap<>();
+        try (Connection conn = DBConnection.getConnection()) {
+            String query = "SELECT city, COUNT(*) AS total FROM contacts GROUP BY city";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                cityCount.put(rs.getString("city"), rs.getLong("total"));
+            }
+        } catch(SQLException e) {
+            System.out.println("Error counting contacts by city: " + e.getMessage());
+        }
+        return cityCount;
+    }
+
+    public Map<String, Long> countContactsByStateDB() {
+        Map<String, Long> stateCount = new HashMap<>();
+        try (Connection conn = DBConnection.getConnection()) {
+            String query = "SELECT state, COUNT(*) AS total FROM contacts GROUP BY state";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                stateCount.put(rs.getString("state"), rs.getLong("total"));
+            }
+        } catch(SQLException e) {
+            System.out.println("Error counting contacts by state: " + e.getMessage());
+        }
+        return stateCount;
+    }
+
 }

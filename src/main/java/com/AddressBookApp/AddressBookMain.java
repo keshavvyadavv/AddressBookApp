@@ -59,7 +59,8 @@ public class AddressBookMain {
                         System.out.println("15. Load Contacts from Database");
                         System.out.println("16. Save Contact to Database");
                         System.out.println("17. Update Contact in DB and Memory");
-
+                        System.out.println("18. Update Contact in Date");
+                        System.out.println("19. Count Contacts in DB by City or State");
                         int op = sc.nextInt(); sc.nextLine();
 
                         switch(op) {
@@ -160,6 +161,17 @@ public class AddressBookMain {
                                 List<Contact> contactsInPeriod = currentBook.getContactsByPeriod(Date.valueOf(start), Date.valueOf(end));
                                 if(contactsInPeriod.isEmpty()) System.out.println("No contacts found in this period.");
                                 else contactsInPeriod.forEach(System.out::println);
+                                break;
+                            case 19:
+                                System.out.println("Count by: 1. City  2. State");
+                                int choice19 = sc.nextInt();
+                                if(choice19 == 1) {
+                                    Map<String, Long> cityCounts = currentBook.countContactsByCityDB();
+                                    cityCounts.forEach((k,v) -> System.out.println(k + " : " + v));
+                                } else if(choice19 == 2) {
+                                    Map<String, Long> stateCounts = currentBook.countContactsByStateDB();
+                                    stateCounts.forEach((k,v) -> System.out.println(k + " : " + v));
+                                } else System.out.println("Invalid option");
                                 break;
                         }
                         if(op == 5) break;
