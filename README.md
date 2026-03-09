@@ -44,3 +44,15 @@ Ability to **prevent duplicate contacts** in the Address Book.
 - Compared contacts using **first name and last name**.
 
 This ensures that **duplicate entries are not added** to the Address Book.
+
+---
+
+## UC-4: Edit Existing Contact
+
+Ability to **edit an existing contact** in the Address Book.
+
+**Implementation:**
+- Search contact using **first name**.
+- Update required contact fields like **address, city, state, phone, or email**.
+
+This allows users to **modify contact details when needed**.
