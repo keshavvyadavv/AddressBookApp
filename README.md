@@ -212,3 +212,18 @@ Ability to **retrieve Address Book contacts from the database**.
 - Fetched contact records and loaded them into **application memory**.
 
 This allows the application to **read and display contacts stored in the database**.
+
+---
+
+## UC-18: Update Contact in Database
+
+Ability to **update contact details in the Address Book Database**.
+
+**Implementation:**
+- Used **JDBC for update operations**.
+- Modified existing contact details in the **database table**.
+
+This keeps the **database and application data synchronized**.
+
+---
+
