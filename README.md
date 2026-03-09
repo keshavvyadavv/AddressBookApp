@@ -152,3 +152,15 @@ Ability to **store Address Book contacts into a file**.
 - Wrote contact details from memory to a **text file**.
 
 This allows **persistent storage of Address Book data**.
+
+---
+
+## UC-13: Read Address Book from File
+
+Ability to **read Address Book contacts from a file**.
+
+**Implementation:**
+- Used **Java File I/O**.
+- Loaded contact details from the **file into application memory**.
+
+This allows the application to **retrieve stored contacts**.
