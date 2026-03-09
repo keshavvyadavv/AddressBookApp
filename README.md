@@ -176,3 +176,15 @@ Ability to **store and retrieve contacts using a CSV file**.
 - Implemented **read and write operations** for CSV files.
 
 This allows contacts to be **easily managed in spreadsheet format**.
+
+---
+
+## UC-15: Read/Write Address Book using JSON
+
+Ability to **store and retrieve contacts using JSON format**.
+
+**Implementation:**
+- Used **JSON file format** for storing contact data.
+- Implemented **read and write operations** using a JSON library.
+
+This allows structured **data storage and easy data exchange**.
