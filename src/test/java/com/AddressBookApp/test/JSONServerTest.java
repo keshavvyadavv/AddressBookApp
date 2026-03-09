@@ -1,10 +1,8 @@
-
 package com.AddressBookApp.test;
 
 import com.AddressBookApp.model.Contact;
 import com.AddressBookApp.service.AddressBook;
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,33 +14,37 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class JSONServerTest {
 
-
     private AddressBook addressBook;
 
     @BeforeEach
     public void setup() {
         addressBook = new AddressBook();
-        RestAssured.baseURI = "http://localhost:3000";
+        RestAssured.baseURI = "http://localhost:3000"; // JSON Server base URL
     }
 
     @Test
-    public void testRetrieveContactsFromJSONServer() {
-        Response response = given()
-                .header("Content-Type", "application/json")
-                .when()
-                .get("/contacts")
-                .then()
-                .statusCode(200)
-                .extract().response();
+    public void testAddMultipleContactsToJSONServer() {
+        List<Contact> contactsToAdd = Arrays.asList(
+                new Contact("Alice", "1234567890", "alice@example.com", "Bhopal", "MP"),
+                new Contact("Bob", "9876543210", "bob@example.com", "Indore", "MP"),
+                new Contact("Charlie", "4561237890", "charlie@example.com", "Bhopal", "MP")
+        );
 
-        Contact[] contactsFromServer = response.as(Contact[].class);
+        contactsToAdd.forEach(contact -> {
+            given()
+                    .header("Content-Type", "application/json")
+                    .body(contact)
+                    .when()
+                    .post("/contacts")
+                    .then()
+                    .statusCode(201);
 
-        List<Contact> contactList = Arrays.asList(contactsFromServer);
-        contactList.forEach(addressBook::addContact);
+            addressBook.addContact(contact);
+        });
 
-        
         assertFalse(addressBook.getContacts().isEmpty());
-        System.out.println("Contacts retrieved from JSON Server and added to memory:");
+
+        System.out.println("Contacts added to JSON Server and memory updated:");
         addressBook.getContacts().forEach(System.out::println);
     }
 }
