@@ -334,4 +334,32 @@ public class AddressBook {
         }
     }
 
+    public long countByCityDB(String city) {
+        long count = 0;
+        try (Connection conn = DBConnection.getConnection()) {
+            String query = "SELECT count_contacts_by_city(?) AS total";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, city);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) count = rs.getLong("total");
+        } catch (SQLException e) {
+            System.out.println("Error counting contacts by city: " + e.getMessage());
+        }
+        return count;
+    }
+
+    public long countByStateDB(String state) {
+        long count = 0;
+        try (Connection conn = DBConnection.getConnection()) {
+            String query = "SELECT count_contacts_by_state(?) AS total";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, state);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) count = rs.getLong("total");
+        } catch (SQLException e) {
+            System.out.println("Error counting contacts by state: " + e.getMessage());
+        }
+        return count;
+    }
+
 }
